@@ -23,6 +23,7 @@ namespace TextRpg
         public int RageGeneration { get; protected set; }
         public int Energy { get; protected set; }
         public int Concentration { get; protected set; }
+        public int Rage { get; protected set; }
 
         public int Attack { get; protected set; }
         public int Spell { get; protected set; }
@@ -87,9 +88,29 @@ namespace TextRpg
         }
     }
 
+    public class Beastman : Character
+    {
+        public Beastman() : base("Beastman")
+        {
+            MaxHP = 1100;
+            HP = 1100;
+            Shield = 120;
+            Mana = 0;
+            Attack = 42;
+            Spell = 10;
+            CritHit = 2.3;
+            CritChance = 0.22;
+            RageGeneration = 0;
+            Energy = 0;
+            Rage = 0;
+            Concentration = 0;
+            PetBonusDamage = 0;       
+        }
+    }
+
     public class Warrior : Character
     {
-        public Warrior() : base("Warrior")
+        public Warrior(string name) : base(name)
         {
             MaxHP = 1200;
             HP = 1200;
