@@ -21,7 +21,13 @@ class Programm
         
             int dmgToHero = enemy.DealDamage();
             hero.TakeDamage(dmgToHero);
-            Console.WriteLine($"enemy deals {dmgToHero} damage");    
+            Console.WriteLine($"enemy deals {dmgToHero} damage");
+            
+            if (dmgToHero > 46)
+            {
+                Console.WriteLine("Critical hit!");
+                hero.UsePotion();
+            }
         
             Console.WriteLine($"Hero has {hero.HP} HP left");
             Console.WriteLine($"Enemy has {enemy.HP} HP left");

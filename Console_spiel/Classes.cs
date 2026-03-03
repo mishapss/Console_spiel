@@ -27,6 +27,7 @@ namespace TextRpg
 
         public int Attack { get; protected set; }
         public int Spell { get; protected set; }
+        public int Potions { get; set; } = 3;
 
         // crit multiplier (e.g. 2.3 means x2.3)
         public double CritHit { get; protected set; }
@@ -73,30 +74,49 @@ namespace TextRpg
             HP = Math.Max(0, HP - left);
         }
 
-        public virtual void Heal()
+        public virtual void Heal(int amount)
         {
-            /*использовать зелье*/
+            if (Potions <= 0)
+            {
+                Console.WriteLine("No Potions left!");
+                return;
+            }
+            HP = Math.Min(MaxHP, HP + amount); // HP + amount, но не больше MaxHP
+        }
 
-            /*
-            1) проверить наличие зелья
-            2) спросить действительно ли хочешь использовать зелье
-            3) увеличить хр на количество, которое позволяет зелье
-            */
+        public void UsePotion()
+        {
+             if (Potions <= 0)
+            { 
+                Console.WriteLine("No Potions left!");
+                return;
+            }
 
-            Console.WriteLine("Do you want to use a poison?");
+
+            Console.WriteLine("Do you want to use a potion?");
             string answer = Console.ReadLine().ToLower();
 
             if (answer == "yes")
-                Console.WriteLine("Hero uses a heal-poison");
+            {     
+                Console.WriteLine("Hero uses a heal-potion");
+                Heal(100);
+                
+                Potions--;
 
+                Console.WriteLine($"potions left&: {Potions}");
+                Console.WriteLine($"{Name} HP: {HP}/{MaxHP}");
+            }
+        }
             
+
+
 
             /*использовать еду*/
 
             /*использовать заклинание по возможности*/
-            
+
             // shield absorbs first
-        }
+        
     }
 
     public class Cow : Character
