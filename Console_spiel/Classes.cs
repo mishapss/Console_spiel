@@ -72,6 +72,31 @@ namespace TextRpg
             int left = amount - absorbed;
             HP = Math.Max(0, HP - left);
         }
+
+        public virtual void Heal()
+        {
+            /*использовать зелье*/
+
+            /*
+            1) проверить наличие зелья
+            2) спросить действительно ли хочешь использовать зелье
+            3) увеличить хр на количество, которое позволяет зелье
+            */
+
+            Console.WriteLine("Do you want to use a poison?");
+            string answer = Console.ReadLine().ToLower();
+
+            if (answer == "yes")
+                Console.WriteLine("Hero uses a heal-poison");
+
+            
+
+            /*использовать еду*/
+
+            /*использовать заклинание по возможности*/
+            
+            // shield absorbs first
+        }
     }
 
     public class Cow : Character
@@ -99,7 +124,7 @@ namespace TextRpg
             Attack = 42;
             Spell = 10;
             CritHit = 2.3;
-            CritChance = 0.22;
+            CritChance = 0.17;
             RageGeneration = 0;
             Energy = 0;
             Rage = 0;
@@ -115,7 +140,7 @@ namespace TextRpg
             MaxHP = 1200;
             HP = 1200;
             Shield = 180;
-            Attack = 35;
+            Attack = 40;
             Spell = 0;
             CritHit = 2.5;
             CritChance = 0.15;
