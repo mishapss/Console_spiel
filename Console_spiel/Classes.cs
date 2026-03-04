@@ -27,7 +27,9 @@ namespace TextRpg
 
         public int Attack { get; protected set; }
         public int Spell { get; protected set; }
-        public int Potions { get; set; } = 3;
+        public int Potions { get; set; } = 1;
+        public double ChanceToRun { get; set; } = 0.25;
+        public int AttackCounter { get; protected set; } = 0;
 
         // crit multiplier (e.g. 2.3 means x2.3)
         public double CritHit { get; protected set; }
@@ -74,6 +76,20 @@ namespace TextRpg
             HP = Math.Max(0, HP - left);
         }
 
+        public bool TryRunAway()
+        {
+            double roll = Rng.NextDouble(); // number from 0 to 1
+            if (roll < ChanceToRun)
+            {
+                Console.WriteLine("You escaped");
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        }
+
         public virtual void Heal(int amount)
         {
             if (Potions <= 0)
@@ -98,17 +114,65 @@ namespace TextRpg
 
             if (answer == "yes")
             {     
-                Console.WriteLine("Hero uses a heal-potion");
-                Heal(100);
                 
-                Potions--;
+                if (HP == MaxHP)
+                {
+                    Console.WriteLine("HP is already full. You can´t use a potion");
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("Hero uses a heal-potion");
+                    Heal(100);
 
-                Console.WriteLine($"potions left&: {Potions}");
-                Console.WriteLine($"{Name} HP: {HP}/{MaxHP}");
+                    Potions--;
+
+                    Console.WriteLine($"potions left&: {Potions}");
+                    Console.WriteLine($"{Name} HP: {HP}/{MaxHP}");
+                }
+                
             }
         }
             
+        public void startBattle()
+        {
+            var enemy = new Beastman();
+            var hero = new Warrior("Hero");
 
+            Console.WriteLine("You choice to fight");
+
+            while (enemy.IsAlive && hero.IsAlive)
+            {
+
+                int dmgToEnemy = hero.DealDamage();
+                enemy.TakeDamage(dmgToEnemy);
+                Console.WriteLine($"hero deals {dmgToEnemy} damage");
+
+                if (!enemy.IsAlive)
+                    break;
+
+                int dmgToHero = enemy.DealDamage();
+                hero.TakeDamage(dmgToHero);
+                Console.WriteLine($"enemy deals {dmgToHero} damage");
+
+                Console.WriteLine($"Hero has {hero.HP} HP left");
+                Console.WriteLine($"Enemy has {enemy.HP} HP left");
+                Console.WriteLine("----------");
+                AttackCounter++;
+
+                if (AttackCounter == 3)
+                {
+                    hero.UsePotion();
+                    AttackCounter = 0; 
+                }
+                
+            }
+
+            if (hero.IsAlive)
+                Console.WriteLine("Hero won");
+            else
+                Console.WriteLine("Enemy won");
+        }
 
 
             /*использовать еду*/
