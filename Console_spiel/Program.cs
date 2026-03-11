@@ -9,7 +9,8 @@ class Programm
         
         List<Location> locations= new List<Location>
         {
-            new Location("Greenwood Forest", 1, 20, "A dark and eerie forest filled with dangerous creatures."),
+            //Location(string name, int level, int chestChance, string description)
+            new Location("Greenwood Forest", 1, 20, "A friendly forest filled with undangerous creatures."),
 
             new Location("Sand Desert", 2, 25, "A scorching desert where sand elementals and ancient predators roam beneath the burning sun."),
 
@@ -40,9 +41,9 @@ class Programm
 
         var enemy = new Beastman();
         var hero = new Warrior("Hero");
-        var forest = new Location("Dark Forest", 1, 20, "test");
 
-        forest.ShowInfo();
+        currentlocation.ShowInfo();
+
 
         Console.WriteLine("A wild Beastman appears! Now you have a choice" +
             "1 - Attack" +

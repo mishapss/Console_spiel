@@ -1,0 +1,1 @@
+CREATE TABLE test_success (id NUMBER);

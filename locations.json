@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "Greenwood Forest",
+    "RecommendedLevel": 1,
+    "ChestChance": 20,
+    "Description": "A dark and eerie forest filled with dangerous creatures.",
+    "Creatures": [ "Beastman", "Dimetrodon", "Cow" ]
+  },
+  {
+    "Name": "Sand Desert",
+    "RecommendedLevel": 2,
+    "ChestChance": 25,
+    "Description": "A scorching desert where sand elementals and ancient predators roam beneath the burning sun.",
+    "Creatures": [ "Sand Elemental", "Dimetrodon" ]
+  }
+]
