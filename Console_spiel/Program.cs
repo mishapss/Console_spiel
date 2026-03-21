@@ -6,25 +6,44 @@ class Programm
 {
     static void Main()
     {
-        
-        List<Location> locations= new List<Location>
+        Console.WriteLine("--- Connect test to Oracle ---");
+        DatabaseManager db = new DatabaseManager();
+
+        try
         {
-            //Location(string name, int level, int chestChance, string description)
-            new Location("Greenwood Forest", 1, 20, "A friendly forest filled with undangerous creatures."),
+            List<Location> locations = db.GetLocationsFromDB();
 
-            new Location("Sand Desert", 2, 25, "A scorching desert where sand elementals and ancient predators roam beneath the burning sun."),
+            if (locations == null || locations.Count == 0)
+            {
+                Console.WriteLine("Result: The lsit is empty. Check, are the data in table LOCATIONS.");
+            }
+            else
+            {
+                Console.WriteLine($"Good Locations were found: {locations.Count}");
+                foreach (var loc in locations)
+                {
+                    Console.WriteLine($"- {loc.Name} (mobs: {loc.Mobs})");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Connect error:");
+            Console.WriteLine(ex.Message);
+        }
 
-            new Location("Ruins of the Forgotten", 3, 30, "Ancient ruins haunted by undead and cursed guardians from a forgotten civilization."),
+        Console.WriteLine("\ntip any keyboard to exit");
+        Console.ReadKey();
+    }
+    /*{
+        DatabaseManager db = new DatabaseManager();
+        List<Location> locations = db.GetLocationsFromDB();
 
-            new Location("Hive of Aqir", 4, 35, "A massive underground hive filled with Aqir warriors and venomous creatures."),
-
-            new Location("Iron Wastes", 5, 40, "A barren land of rusted machines and roaming iron giants left from ancient wars."),
-
-            new Location("Titan Vault Approach", 6, 45, "The outer halls of an ancient titan vault guarded by powerful constructs and elite enemies."),
-
-            new Location("Ulduar Gate (Boss Zone)", 7, 60, "The entrance to the legendary titan complex Ulduar, where a powerful boss awaits."),
-
-        };
+        if (locations.Count == 0)
+        {
+            Console.WriteLine("Database is empty or connection failed!");
+            return;
+        }
 
         Console.WriteLine("Choice location:");
 
@@ -39,6 +58,7 @@ class Programm
 
         Console.WriteLine($"You travel to {currentlocation.Name}");
 
+       
         var enemy = new Beastman();
         var hero = new Warrior("Hero");
 
@@ -81,7 +101,7 @@ class Programm
 
         
       
-    }
-        
+    }*/
+
 }
 
