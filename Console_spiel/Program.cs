@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Common;
+using System.Xml.Serialization;
 using TextRpg;
 
 class Programm
@@ -8,100 +9,98 @@ class Programm
     {
         Console.WriteLine("--- Connect test to Oracle ---");
         DatabaseManager db = new DatabaseManager();
+        List<Location> worldMap = db.GetLocationsFromDB();
 
-        try
+        if (worldMap.Count == 0)
         {
-            List<Location> locations = db.GetLocationsFromDB();
-
-            if (locations == null || locations.Count == 0)
-            {
-                Console.WriteLine("Result: The lsit is empty. Check, are the data in table LOCATIONS.");
-            }
-            else
-            {
-                Console.WriteLine($"Good Locations were found: {locations.Count}");
-                foreach (var loc in locations)
-                {
-                    Console.WriteLine($"- {loc.Name} (mobs: {loc.Mobs})");
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Connect error:");
-            Console.WriteLine(ex.Message);
-        }
-
-        Console.WriteLine("\ntip any keyboard to exit");
-        Console.ReadKey();
-    }
-    /*{
-        DatabaseManager db = new DatabaseManager();
-        List<Location> locations = db.GetLocationsFromDB();
-
-        if (locations.Count == 0)
-        {
-            Console.WriteLine("Database is empty or connection failed!");
+            Console.WriteLine("Result: The list is empty. Check, are the data in table LOCATIONS.");
             return;
         }
 
-        Console.WriteLine("Choice location:");
+        bool playing = true;
+        while (playing == true)
 
-        for (int i = 0; i < locations.Count; i++)
         {
-            Console.WriteLine($"{i + 1}. {locations[i].Name}");
-        }
+            Console.Clear();
+            Console.WriteLine("---Choice location---");
 
-        int locationChoice = int.Parse(Console.ReadLine());
-
-        Location currentlocation = locations[locationChoice - 1];
-
-        Console.WriteLine($"You travel to {currentlocation.Name}");
-
-       
-        var enemy = new Beastman();
-        var hero = new Warrior("Hero");
-
-        currentlocation.ShowInfo();
-
-
-        Console.WriteLine("A wild Beastman appears! Now you have a choice" +
-            "1 - Attack" +
-            "2 - Try to run" +
-            "What do you gonna do? (1/2)");
-
-        string choice = Console.ReadLine();
-
-        if (choice == "1")
-        {
-            hero.startBattle();
-        }
-
-        else if (choice == "2")
-        {
-            Console.WriteLine("You chose to try to run!");
-
-            bool escaped = hero.TryRunAway();
-
-            if (escaped)
+            for (int i = 0; i < worldMap.Count; i++)
             {
-                Console.WriteLine("You escaped successfully!");
-                return;
+                Console.WriteLine($"{i + 1}. {worldMap[i].Name}");
             }
+            Console.WriteLine("0. Exit");
 
-            Console.WriteLine("Failed to escape. You have to fight");
-            hero.startBattle();
+            if (int.TryParse(Console.ReadLine(), out int choice))
+            {
+                if (choice == 0)
+                {
+                    break;
+                }
+
+                if (choice > 0 && choice <= worldMap.Count)
+                {
+                    TravelToLocation(worldMap[choice - 1]);
+                }
+            }
         }
+    }
 
-        else
-        {
-            Console.WriteLine("Invalid input, you have to fight");
-            hero.startBattle();
-        }
-
-        
-      
-    }*/
+    static void TravelToLocation(Location location)
+    {
+        Console.WriteLine("You travel to " + location.Name);
+        location.ShowInfo();
+    }
 
 }
+
+
+
+
+
+/*
+ var enemy = new Beastman();
+ var hero = new Warrior("Hero");
+
+ currentlocation.ShowInfo();
+
+
+ Console.WriteLine("A wild Beastman appears! Now you have a choice" +
+     "1 - Attack" +
+     "2 - Try to run" +
+     "What do you gonna do? (1/2)");
+
+ string choice = Console.ReadLine();
+
+ if (choice == "1")
+ {
+     hero.startBattle();
+ }
+
+ else if (choice == "2")
+ {
+     Console.WriteLine("You chose to try to run!");
+
+     bool escaped = hero.TryRunAway();
+
+     if (escaped)
+     {
+         Console.WriteLine("You escaped successfully!");
+         return;
+     }
+
+     Console.WriteLine("Failed to escape. You have to fight");
+     hero.startBattle();
+ }
+
+ else
+ {
+     Console.WriteLine("Invalid input, you have to fight");
+     hero.startBattle();
+ }
+
+
+
+}
+
+}*/
 
